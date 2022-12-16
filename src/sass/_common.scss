@@ -1,0 +1,44 @@
+@import '~node_modules/modern-normalize/modern-normalize.css';
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.list {
+  list-style: none;
+}
+.container {
+  padding: 0 15px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+.header {
+  padding: 15px 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  background-color: rgb(6, 156, 161);
+}
+.logo {
+  width: 50%;
+}
