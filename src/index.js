@@ -11,8 +11,8 @@ const refs = {
 }
 
 refs.searchForm.addEventListener('submit', onSearch);
-let gallery = new SimpleLightbox('.gallery a',
-    { captionDelay: 250, captionsData: 'alt', captionPosition: 'bottom' });
+/* let gallery = new SimpleLightbox('.gallery a');
+console.dir(gallery); */
 
 async function onSearch(evt) {
     evt.preventDefault();
@@ -21,6 +21,8 @@ async function onSearch(evt) {
     if (response.data.hits.length > 0) {
         const markup = renderAPI.creatGalleryItems(response.data.hits);
         renderAPI.renderContent(markup, refs.gallery);
+        let gallery = new SimpleLightbox('.gallery a');
+        refs.btnLoadMore.classList.remove('is-hidden');
     }
 }
 
