@@ -31,8 +31,8 @@ function creatGalleryItems(items) {
     }).join('');
 };
 
-function renderContent(markup, elem) {   
+function makeupContent(markup, elem) {   
     elem.insertAdjacentHTML('beforeend', markup);
 }
 
-export default { clearContent, creatGalleryItems, renderContent};
+export default { clearContent, creatGalleryItems, makeupContent};
