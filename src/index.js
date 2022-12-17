@@ -15,24 +15,28 @@ const instanceAPI = new API();
 refs.searchForm.addEventListener('submit', onSearch);
 refs.searchForm.addEventListener('blur', onGotFocus);
 refs.btnLoadMore.addEventListener('click', onShowMore);
+let gallery;
 
 async function onSearch(evt) {
     evt.preventDefault();
     refs.btnLoadMore.classList.add('is-hidden');
     renderAPI.clearContent(refs.gallery);
     instanceAPI.query = evt.target[0].value;
-    console.log(instanceAPI);
     try {
         const response = await instanceAPI.getImages();
         if (response.data.hits.length > 0) {
+            Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
             renderContent(response.data.hits);
+            gallery = new SimpleLightbox('.gallery a');
+            
         }
         else {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         }
     }
     catch {
-        console.log('from catch')        
+        refs.btnLoadMore.classList.add('is-hidden');
+        Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");        
     }      
 }
 
@@ -44,19 +48,19 @@ async function onShowMore() {
     instanceAPI.incrementPage();    
     try {
         const response = await instanceAPI.getImages();
+        console.log(response);
         renderContent(response.data.hits);
-        if (instanceAPI.countHits >= response.data.totalHits) {
-            refs.btnLoadMore.classList.add('is-hidden');
-            Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
-        }
+        gallery.refresh();
     } catch (error) {
-        console.log('from catch')
+        refs.btnLoadMore.classList.add('is-hidden');
+        Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
     }
 }
 
 function renderContent(content) {
     const markup = renderAPI.creatGalleryItems(content);
     renderAPI.makeupContent(markup, refs.gallery);
-    let gallery = new SimpleLightbox('.gallery a');
+    
     refs.btnLoadMore.classList.remove('is-hidden');
 }
+
