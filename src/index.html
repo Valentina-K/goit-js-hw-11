@@ -9,7 +9,19 @@
   </head>
   <body>
     <!-- <div class="container"> -->
-      <div class="header">
+    <div class="header">
+      <div logoContainer>
+        <a href="https://pixabay.com/" class="link logo">
+              <img
+            src="./images/logo_square.svg"
+            alt="Pixabay"
+            width="40"
+            height="40"
+          />
+        </a>
+      </div>
+
+      <div class="formContainer">
         <form class="search-form" id="search-form">
           <div class="search">
             <input
@@ -31,20 +43,13 @@
           </div>
         </form>
       </div>
+    </div>
 
-      <div class="gallery">
-        <!-- Карточки изображений -->
-      </div>
-      <button type="button" class="load-more is-hidden">Load more</button>
-      <!-- <a href="https://pixabay.com/" class="link logo">
-            <img
-          src="https://pixabay.com/static/img/public/leaderboard_a.png"
-          alt="Pixabay"
-        /> -->
-      </a>
-    <!-- </div> -->
+    <div class="gallery container">
+      <!-- Карточки изображений -->
+    </div>
+    <button type="button" class="load-more is-hidden">Load more</button>
 
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <!--<include src="./partials/example.html"></include>  -->
+    <!-- <script src="../node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js"></script> -->
   </body>
 </html>
