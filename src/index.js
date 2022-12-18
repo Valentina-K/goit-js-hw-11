@@ -29,8 +29,8 @@ async function onSearch(evt) {
         if (response.data.hits.length > 0) {
             Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
             renderContent(response.data.hits);
-            gallery = new SimpleLightbox('.gallery a');
-            
+            gallery = new SimpleLightbox('.gallery a');   
+            smoothScrolling();
         }
         else {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
@@ -51,10 +51,11 @@ async function onShowMore() {
     try {
         const response = await instanceAPI.getImages();
         if (instanceAPI.countHits >= response.data.totalHits) {
-            throw (error);
+            throw(error);
         }
         console.log(response);
         renderContent(response.data.hits);
+        smoothScrolling();
         gallery.refresh();
     } catch (error) {
         refs.btnLoadMore.classList.add('is-hidden');
@@ -67,5 +68,16 @@ function renderContent(content) {
     renderAPI.makeupContent(markup, refs.gallery);
     
     refs.btnLoadMore.classList.remove('is-hidden');
+}
+
+function smoothScrolling() {
+    const { height: cardHeight } = document
+        .querySelector(".gallery")
+        .firstElementChild.getBoundingClientRect();    
+
+    window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+    });
 }
 
