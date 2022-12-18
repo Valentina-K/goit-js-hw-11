@@ -9,11 +9,12 @@ const refs = {
     searchForm: document.querySelector('.search-form'),
     gallery: document.querySelector('.gallery'),
     btnLoadMore: document.querySelector('.load-more'),
+    searchInput: document.querySelector('.searchTerm'),
 }
 
 const instanceAPI = new API();
 refs.searchForm.addEventListener('submit', onSearch);
-refs.searchForm.addEventListener('blur', onGotFocus);
+refs.searchInput.addEventListener('focus', onGotFocus);
 refs.btnLoadMore.addEventListener('click', onShowMore);
 let gallery;
 
@@ -21,7 +22,8 @@ async function onSearch(evt) {
     evt.preventDefault();
     refs.btnLoadMore.classList.add('is-hidden');
     renderAPI.clearContent(refs.gallery);
-    instanceAPI.query = evt.target[0].value;
+    instanceAPI.query = evt.currentTarget.searchQuery.value;
+    evt.currentTarget.searchQuery.blur();
     try {
         const response = await instanceAPI.getImages();
         if (response.data.hits.length > 0) {
@@ -41,13 +43,16 @@ async function onSearch(evt) {
 }
 
 function onGotFocus(evt) {
-    evt.target[0].value = '';
+    evt.currentTarget.value = '';
 }
 
 async function onShowMore() {
-    instanceAPI.incrementPage();    
+    instanceAPI.incrementPage();       
     try {
         const response = await instanceAPI.getImages();
+        if (instanceAPI.countHits >= response.data.totalHits) {
+            throw (error);
+        }
         console.log(response);
         renderContent(response.data.hits);
         gallery.refresh();

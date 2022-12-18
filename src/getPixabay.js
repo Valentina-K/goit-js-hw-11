@@ -10,12 +10,11 @@ export default class ImageApiServices {
         this.countHits = 0;
     }
 
-    async getImages() {
-    console.log(encodeURIComponent('red rose'))    
+    async getImages() {       
         const response = await axios.get(`${BASE_URL}`, {
             params: {
                 key: KEY,
-                q: encodeURIComponent(this.searchQuery),
+                q: encodeURIComponent(this.searchQuery).replaceAll("%20", "+"),
                 image_type: 'photo',
                 orientation: 'horizontal',
                 safesearch: 'true',
