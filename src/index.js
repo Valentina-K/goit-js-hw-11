@@ -12,7 +12,7 @@ const refs = {
     searchInput: document.querySelector('.searchTerm'),
 }
 
-const instanceAPI = new API();
+let instanceAPI;
 refs.searchForm.addEventListener('submit', onSearch);
 refs.searchInput.addEventListener('focus', onGotFocus);
 refs.btnLoadMore.addEventListener('click', onShowMore);
@@ -22,6 +22,7 @@ async function onSearch(evt) {
     evt.preventDefault();
     refs.btnLoadMore.classList.add('is-hidden');
     renderAPI.clearContent(refs.gallery);
+    instanceAPI = new API();
     instanceAPI.query = evt.currentTarget.searchQuery.value;
     evt.currentTarget.searchQuery.blur();
     try {
@@ -50,13 +51,13 @@ async function onShowMore() {
     instanceAPI.incrementPage();       
     try {
         const response = await instanceAPI.getImages();
-        if (instanceAPI.countHits >= response.data.totalHits) {
-            throw(error);
-        }
-        console.log(response);
+               
         renderContent(response.data.hits);
         smoothScrolling();
         gallery.refresh();
+        if (instanceAPI.countHits >= response.data.totalHits) {
+            throw(error);
+        }
     } catch (error) {
         refs.btnLoadMore.classList.add('is-hidden');
         Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
